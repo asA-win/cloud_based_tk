@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 
+const baseURL = process.env.REACT_APP_API_URL;
+
+
 function TaskPage() {
   const [tasks, setTasks] = useState([]);
   const [filteredTasks, setFilteredTasks] = useState([]);
@@ -29,7 +32,7 @@ function TaskPage() {
 
   const fetchTasks = async () => {
     try {
-      const response = await axios.get("http://127.0.0.1:8000/api/tasks/", { headers });
+      const response = await axios.get(`${baseURL}/api/tasks/`, { headers });
       setTasks(response.data);
     } catch (error) {
       if (error.response?.status === 401) {
@@ -42,7 +45,7 @@ function TaskPage() {
   const refreshToken = async () => {
     const refresh = localStorage.getItem("refresh");
     try {
-      const response = await axios.post("http://127.0.0.1:8000/api/token/refresh/", { refresh });
+      const response = await axios.post(`${baseURL}/api/token/refresh/`, { refresh });
       localStorage.setItem("access", response.data.access);
     } catch (error) {
       console.log("Refresh failed.");
@@ -77,7 +80,7 @@ function TaskPage() {
   const toggleCompleted = async (task) => {
     try {
       await axios.put(
-        `http://127.0.0.1:8000/api/tasks/${task.id}/`,
+        `${baseURL}/api/tasks/${task.id}/`,
         { ...task, completed: !task.completed },
         { headers }
       );
@@ -92,7 +95,7 @@ function TaskPage() {
 
   const deleteTask = async (id) => {
     try {
-      await axios.delete(`http://127.0.0.1:8000/api/tasks/${id}/`, { headers });
+      await axios.delete(`${baseURL}/api/tasks/${id}/`, { headers });
       fetchTasks();
       closeModal();
     } catch (error) {
@@ -155,9 +158,9 @@ function TaskPage() {
     e.preventDefault();
     try {
       if (isEditing) {
-        await axios.put(`http://127.0.0.1:8000/api/tasks/${formData.id}/`, formData, { headers });
+        await axios.put(`${baseURL}/api/tasks/${formData.id}/`, formData, { headers });
       } else {
-        await axios.post("http://127.0.0.1:8000/api/tasks/", formData, { headers });
+        await axios.post(`${baseURL}/api/tasks/`, formData, { headers });
       }
       fetchTasks();
       setShowFormModal(false);

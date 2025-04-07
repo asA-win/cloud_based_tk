@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import axios from "axios";
+const baseURL = process.env.REACT_APP_API_URL;
 
 function AlarmWatcher() {
   const alarmSound = useRef(null);
@@ -13,7 +14,7 @@ function AlarmWatcher() {
     const interval = setInterval(async () => {
       try {
         const token = localStorage.getItem("access");
-        const response = await axios.get("http://127.0.0.1:8000/api/tasks/", {
+        const response = await axios.get(`${baseURL}/api/tasks/`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },

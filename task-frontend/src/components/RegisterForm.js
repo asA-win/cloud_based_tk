@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+const baseURL = process.env.REACT_APP_API_URL;
 
 function RegisterForm() {
   const [regno, setRegno] = useState("");
@@ -11,7 +12,7 @@ function RegisterForm() {
   const handleRegister = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://127.0.0.1:8000/api/register/", {
+      await axios.post(`${baseURL}/api/register/`, {
         username: regno,
         email: email, // ✅ Include email
         password: password,

@@ -2,6 +2,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+const baseURL = process.env.REACT_APP_API_URL;
 
 function LoginForm() {
   const [regno, setRegno] = useState("");
@@ -11,7 +12,7 @@ function LoginForm() {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://127.0.0.1:8000/api/token/", {
+      const response = await axios.post(`${baseURL}/api/token/`, {
         username: regno,
         password: password,
       });
